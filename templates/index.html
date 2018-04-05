@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       #map {
+        height: 600px;
+        width: 100%;
+       }
+    </style>
+  </head>
+  <body>
+    <h1>Les appartements</h1>
+    <div id="map"></div>
+    <script>
+      function attachLink(marker, link) {
+          var infowindow = new google.maps.InfoWindow({
+            content: link
+          });
+
+          marker.addListener('click', function() {
+            infowindow.open(marker.get('map'), marker);
+          });
+      }
+
+      function initMap() {
+        var flats_immoscout = {{flats_immoscout | tojson }};
+        var flats_immostreet = {{flats_immostreet | tojson }};
+        var flats_homegate = {{flats_homegate | tojson }};
+        var flats_home = {{flats_home | tojson }};
+
+        var uluru = {lat: 47.377901, lng: 8.539851};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 14,
+          center: uluru
+        });
+
+        for (var key in flats_immoscout) {
+            var all_marker = {};
+            var all_infobulle = {};
+            var content = "<a href= " + flats_immoscout[key]['url'] + ">Lien vers appart</a>";
+            marker = new google.maps.Marker({
+                position: {lat: flats_immoscout[key]["lat"], lng: flats_immoscout[key]["long"]},
+                map: map,
+                icon: '/static/img/blue_MarkerA.png'
+            });
+            attachLink(marker, content)
+        }
+
+        for (var key in flats_immostreet) {
+            var all_marker = {};
+            var all_infobulle = {};
+            var content = "<a href= " + flats_immoscout[key]['url'] + ">Lien vers appart</a>";
+            marker = new google.maps.Marker({
+                position: {lat: flats_immoscout[key]["lat"], lng: flats_immoscout[key]["long"]},
+                map: map,
+                icon: '/static/img/red_MarkerB.png'
+            });
+            attachLink(marker, content)
+        }
+
+        for (var key in flats_homegate) {
+            var all_marker = {};
+            var all_infobulle = {};
+            var content = "<a href= " + flats_homegate[key]['url'] + ">Lien vers appart</a>";
+            marker = new google.maps.Marker({
+                position: {lat: flats_homegate[key]["lat"], lng: flats_homegate[key]["long"]},
+                map: map,
+                icon: '/static/img/green_MarkerC.png'
+            });
+            attachLink(marker, content)
+        }
+
+         for (var key in flats_home) {
+            var all_marker = {};
+            var all_infobulle = {};
+            var content = "<a href= " + flats_home[key]['url'] + ">Lien vers appart</a>";
+            marker = new google.maps.Marker({
+                position: {lat: flats_home[key]["lat"], lng: flats_home[key]["long"]},
+                map: map,
+                icon: '/static/img/yellow_MarkerD.png'
+            });
+            attachLink(marker, content)
+        }
+
+
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNEnGoO2oa14kNFjFtEXTHCjt997O44AQ&callback=initMap">
+    </script>
+  </body>
+</html>
